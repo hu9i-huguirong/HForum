@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.hforum.mapper.NewsMapper">
+    <resultMap id="BaseResultMap" type="com.example.hforum.model.News">
+        <id column="news_id" jdbcType="BIGINT" property="newsId"/>
+        <result column="news_title" jdbcType="VARCHAR" property="newsTitle"/>
+        <result column="news_from" jdbcType="VARCHAR" property="newsFrom"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="create_user_id" jdbcType="BIGINT" property="createUserId"/>
+        <result column="release_time" jdbcType="TIMESTAMP" property="releaseTime"/>
+        <result column="news_thumb" jdbcType="INTEGER" property="newsThumb"/>
+        <result column="allow_comment" jdbcType="BIT" property="allowComment"/>
+        <result column="news_delete" jdbcType="BIT" property="newsDelete"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.hforum.model.News">
+        <result column="news_content" jdbcType="LONGVARCHAR" property="newsContent"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    news_id, news_title, news_from, create_time, create_user_id, release_time, news_thumb, 
+    allow_comment, news_delete
+  </sql>
+    <sql id="Blob_Column_List">
+    news_content
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from news
+        where news_id = #{newsId,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from news
+    where news_id = #{newsId,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.example.hforum.model.News">
+    insert into news (news_id, news_title, news_from, 
+      create_time, create_user_id, release_time, 
+      news_thumb, allow_comment, news_delete, 
+      news_content)
+    values (#{newsId,jdbcType=BIGINT}, #{newsTitle,jdbcType=VARCHAR}, #{newsFrom,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{releaseTime,jdbcType=TIMESTAMP}, 
+      #{newsThumb,jdbcType=INTEGER}, #{allowComment,jdbcType=BIT}, #{newsDelete,jdbcType=BIT}, 
+      #{newsContent,jdbcType=LONGVARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.example.hforum.model.News" useGeneratedKeys="true"
+            keyProperty="newsId">
+        insert into news
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="newsId != null">
+                news_id,
+            </if>
+            <if test="newsTitle != null">
+                news_title,
+            </if>
+            <if test="newsFrom != null">
+                news_from,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="releaseTime != null">
+                release_time,
+            </if>
+            <if test="newsThumb != null">
+                news_thumb,
+            </if>
+            <if test="allowComment != null">
+                allow_comment,
+            </if>
+            <if test="newsDelete != null">
+                news_delete,
+            </if>
+            <if test="newsContent != null">
+                news_content,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="newsId != null">
+                #{newsId,jdbcType=BIGINT},
+            </if>
+            <if test="newsTitle != null">
+                #{newsTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="newsFrom != null">
+                #{newsFrom,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=BIGINT},
+            </if>
+            <if test="releaseTime != null">
+                #{releaseTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="newsThumb != null">
+                #{newsThumb,jdbcType=INTEGER},
+            </if>
+            <if test="allowComment != null">
+                #{allowComment,jdbcType=BIT},
+            </if>
+            <if test="newsDelete != null">
+                #{newsDelete,jdbcType=BIT},
+            </if>
+            <if test="newsContent != null">
+                #{newsContent,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.example.hforum.model.News">
+        update news
+        <set>
+            <if test="newsTitle != null">
+                news_title = #{newsTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="newsFrom != null">
+                news_from = #{newsFrom,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=BIGINT},
+            </if>
+            <if test="releaseTime != null">
+                release_time = #{releaseTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="newsThumb != null">
+                news_thumb = #{newsThumb,jdbcType=INTEGER},
+            </if>
+            <if test="allowComment != null">
+                allow_comment = #{allowComment,jdbcType=BIT},
+            </if>
+            <if test="newsDelete != null">
+                news_delete = #{newsDelete,jdbcType=BIT},
+            </if>
+            <if test="newsContent != null">
+                news_content = #{newsContent,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where news_id = #{newsId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.hforum.model.News">
+    update news
+    set news_title = #{newsTitle,jdbcType=VARCHAR},
+      news_from = #{newsFrom,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      release_time = #{releaseTime,jdbcType=TIMESTAMP},
+      news_thumb = #{newsThumb,jdbcType=INTEGER},
+      allow_comment = #{allowComment,jdbcType=BIT},
+      news_delete = #{newsDelete,jdbcType=BIT},
+      news_content = #{newsContent,jdbcType=LONGVARCHAR}
+    where news_id = #{newsId,jdbcType=BIGINT}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="com.example.hforum.model.News">
+    update news
+    set news_title = #{newsTitle,jdbcType=VARCHAR},
+      news_from = #{newsFrom,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      release_time = #{releaseTime,jdbcType=TIMESTAMP},
+      news_thumb = #{newsThumb,jdbcType=INTEGER},
+      allow_comment = #{allowComment,jdbcType=BIT},
+      news_delete = #{newsDelete,jdbcType=BIT}
+    where news_id = #{newsId,jdbcType=BIGINT}
+  </update>
+
+    <insert id="insertNewsChannel" parameterType="com.example.hforum.po.BridgePo">
+    insert into news_channel (nid, cid)
+    values (#{oneId,jdbcType=BIGINT}, #{twoId,jdbcType=INTEGER})
+  </insert>
+
+
+    <resultMap id="NewsVoResultMap" type="com.example.hforum.po.NewsVo">
+        <!-- 必须要按这里面的顺序写,不能随意打乱(constructor?,id*,result*,association*,collection*,discriminator?)-->
+        <id column="news_id" jdbcType="BIGINT" property="news.newsId"/>
+        <result column="news_title" jdbcType="VARCHAR" property="news.newsTitle"/>
+        <result column="news_from" jdbcType="VARCHAR" property="news.newsFrom"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="news.createTime"/>
+        <result column="create_user_id" jdbcType="BIGINT" property="news.createUserId"/>
+        <result column="release_time" jdbcType="TIMESTAMP" property="news.releaseTime"/>
+        <result column="news_thumb" jdbcType="INTEGER" property="news.newsThumb"/>
+        <result column="allow_comment" jdbcType="BIT" property="news.allowComment"/>
+        <result column="news_delete" jdbcType="BIT" property="news.newsDelete"/>
+        <result column="news_content" jdbcType="LONGVARCHAR" property="news.newsContent"/>
+        <association property="newsRecord"  resultMap="com.example.hforum.mapper.NewsRecordMapper.BaseResultMap" />
+
+        <!-- 多对多关联映射：collection -->
+        <collection property="channels" ofType="com.example.hforum.model.Channel">
+            <id column="channel_id" jdbcType="BIGINT" property="channelId"/>
+            <result column="channel_name" jdbcType="VARCHAR" property="channelName"/>
+        </collection>
+
+        <collection property="images" ofType="com.example.hforum.model.Image">
+            <id column="image_id" jdbcType="BIGINT" property="imageId"/>
+            <result column="image_content" jdbcType="VARCHAR" property="imageContent"/>
+        </collection>
+
+    </resultMap>
+
+
+    <select id="load" parameterType="java.lang.Long" resultMap="NewsVoResultMap">
+        select n.*,c.channel_id,c.channel_name,i.image_id,i.image_content,nr.*
+        from news n
+        left outer join news_channel nc
+        on  n.news_id = nc.nid
+        left outer join channel c
+        on c.channel_id=nc.cid
+        left outer join image i
+        on i.image_news_id=n.news_id
+        left outer join news_record nr
+        on nr.news_id= n.news_id
+        and nr.aduit_news_version =(SELECT MAX(aduit_news_version) FROM news_record where news_id =  #{newsId,jdbcType=BIGINT} )
+        where n.news_id =  #{newsId,jdbcType=BIGINT}
+    </select>
+
+    <sql id="whereCondition">
+        <if test="channelId != null">
+            and n.news_id in (select nc.nid from news_channel nc where nc.cid =  #{channelId,jdbcType=INTEGER})
+        </if>
+        <!-- 注：CONCAT是mysql数据库中才有的 -->
+        <if test="newsTitle != null and !&quot;&quot;.equals(newsTitle.trim())">
+            and n.news_title like concat('%',trim(#{newsTitle,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="aduitResult != null">
+            and n.news_id in
+            (SELECT nr.news_id FROM news_record nr
+            INNER JOIN  (SELECT news_id as news_id, MAX(nr.aduit_news_version) as max_version FROM news_record nr GROUP BY nr.news_id) t
+            on nr.news_id = t.news_id
+            AND nr.aduit_news_version = t.max_version
+            AND  nr.aduit_result =  #{aduitResult,jdbcType=INTEGER} )
+        </if>
+        <if test="userId != null">
+            and n.create_user_id =  #{userId,jdbcType=BIGINT}
+        </if>
+    </sql>
+
+    <select id="list" parameterType="com.example.hforum.po.NewsVo" resultMap="BaseResultMap">
+        select n.* from news n
+        <where>
+            <include refid="whereCondition"></include>
+        </where>
+    </select>
+
+    <delete id="deleteNewsChannelByNewsId" parameterType="java.lang.Long">
+        delete from news_channel
+        where nid = #{newsId,jdbcType=BIGINT}
+    </delete>
+</mapper>

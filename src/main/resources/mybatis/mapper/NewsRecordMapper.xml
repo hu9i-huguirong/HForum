@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.hforum.mapper.NewsRecordMapper">
+  <resultMap id="BaseResultMap" type="com.example.hforum.model.NewsRecord">
+    <id column="news_record_id" jdbcType="BIGINT" property="newsRecordId" />
+    <result column="news_id" jdbcType="BIGINT" property="newsId" />
+    <result column="for_review_time" jdbcType="TIMESTAMP" property="forReviewTime" />
+    <result column="soldout_time" jdbcType="TIMESTAMP" property="soldoutTime" />
+    <result column="soldout_user_id" jdbcType="BIGINT" property="soldoutUserId" />
+    <result column="aduit_failure_cause" jdbcType="VARCHAR" property="aduitFailureCause" />
+    <result column="aduit_user_id" jdbcType="BIGINT" property="aduitUserId" />
+    <result column="aduit_news_version" jdbcType="INTEGER" property="aduitNewsVersion" />
+    <result column="aduit_result" jdbcType="INTEGER" property="aduitResult" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    news_record_id, news_id, for_review_time, soldout_time, soldout_user_id, aduit_failure_cause, 
+    aduit_user_id, aduit_news_version, aduit_result
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from news_record
+    where news_record_id = #{newsRecordId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from news_record
+    where news_record_id = #{newsRecordId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.example.hforum.model.NewsRecord">
+    insert into news_record (news_record_id, news_id, for_review_time, 
+      soldout_time, soldout_user_id, aduit_failure_cause, 
+      aduit_user_id, aduit_news_version, aduit_result
+      )
+    values (#{newsRecordId,jdbcType=BIGINT}, #{newsId,jdbcType=BIGINT}, #{forReviewTime,jdbcType=TIMESTAMP}, 
+      #{soldoutTime,jdbcType=TIMESTAMP}, #{soldoutUserId,jdbcType=BIGINT}, #{aduitFailureCause,jdbcType=VARCHAR}, 
+      #{aduitUserId,jdbcType=BIGINT}, #{aduitNewsVersion,jdbcType=INTEGER}, #{aduitResult,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.hforum.model.NewsRecord">
+    insert into news_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="newsRecordId != null">
+        news_record_id,
+      </if>
+      <if test="newsId != null">
+        news_id,
+      </if>
+      <if test="forReviewTime != null">
+        for_review_time,
+      </if>
+      <if test="soldoutTime != null">
+        soldout_time,
+      </if>
+      <if test="soldoutUserId != null">
+        soldout_user_id,
+      </if>
+      <if test="aduitFailureCause != null">
+        aduit_failure_cause,
+      </if>
+      <if test="aduitUserId != null">
+        aduit_user_id,
+      </if>
+      <if test="aduitNewsVersion != null">
+        aduit_news_version,
+      </if>
+      <if test="aduitResult != null">
+        aduit_result,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="newsRecordId != null">
+        #{newsRecordId,jdbcType=BIGINT},
+      </if>
+      <if test="newsId != null">
+        #{newsId,jdbcType=BIGINT},
+      </if>
+      <if test="forReviewTime != null">
+        #{forReviewTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="soldoutTime != null">
+        #{soldoutTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="soldoutUserId != null">
+        #{soldoutUserId,jdbcType=BIGINT},
+      </if>
+      <if test="aduitFailureCause != null">
+        #{aduitFailureCause,jdbcType=VARCHAR},
+      </if>
+      <if test="aduitUserId != null">
+        #{aduitUserId,jdbcType=BIGINT},
+      </if>
+      <if test="aduitNewsVersion != null">
+        #{aduitNewsVersion,jdbcType=INTEGER},
+      </if>
+      <if test="aduitResult != null">
+        #{aduitResult,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.hforum.model.NewsRecord">
+    update news_record
+    <set>
+      <if test="newsId != null">
+        news_id = #{newsId,jdbcType=BIGINT},
+      </if>
+      <if test="forReviewTime != null">
+        for_review_time = #{forReviewTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="soldoutTime != null">
+        soldout_time = #{soldoutTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="soldoutUserId != null">
+        soldout_user_id = #{soldoutUserId,jdbcType=BIGINT},
+      </if>
+      <if test="aduitFailureCause != null">
+        aduit_failure_cause = #{aduitFailureCause,jdbcType=VARCHAR},
+      </if>
+      <if test="aduitUserId != null">
+        aduit_user_id = #{aduitUserId,jdbcType=BIGINT},
+      </if>
+      <if test="aduitNewsVersion != null">
+        aduit_news_version = #{aduitNewsVersion,jdbcType=INTEGER},
+      </if>
+      <if test="aduitResult != null">
+        aduit_result = #{aduitResult,jdbcType=INTEGER},
+      </if>
+    </set>
+    where news_record_id = #{newsRecordId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.hforum.model.NewsRecord">
+    update news_record
+    set news_id = #{newsId,jdbcType=BIGINT},
+      for_review_time = #{forReviewTime,jdbcType=TIMESTAMP},
+      soldout_time = #{soldoutTime,jdbcType=TIMESTAMP},
+      soldout_user_id = #{soldoutUserId,jdbcType=BIGINT},
+      aduit_failure_cause = #{aduitFailureCause,jdbcType=VARCHAR},
+      aduit_user_id = #{aduitUserId,jdbcType=BIGINT},
+      aduit_news_version = #{aduitNewsVersion,jdbcType=INTEGER},
+      aduit_result = #{aduitResult,jdbcType=INTEGER}
+    where news_record_id = #{newsRecordId,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectByNewsId" parameterType="java.lang.Long"  resultMap="BaseResultMap">
+    SELECT * FROM news_record
+    where news_id = #{newsId,jdbcType=BIGINT}
+    ORDER BY aduit_news_version DESC LIMIT 1
+  </select>
+
+</mapper>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.hforum.mapper.ChannelMapper">
+    <resultMap id="BaseResultMap" type="com.example.hforum.model.Channel">
+        <id column="channel_id" jdbcType="INTEGER" property="channelId"/>
+        <result column="channel_name" jdbcType="VARCHAR" property="channelName"/>
+        <result column="position" jdbcType="INTEGER" property="position"/>
+        <result column="selected" jdbcType="BIT" property="selected"/>
+        <result column="city" jdbcType="BIT" property="city"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    channel_id, channel_name, position, selected, city
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from channel
+        where channel_id = #{channelId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from channel
+    where channel_id = #{channelId,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.example.hforum.model.Channel">
+    insert into channel (channel_id, channel_name, position, 
+      selected, city)
+    values (#{channelId,jdbcType=INTEGER}, #{channelName,jdbcType=VARCHAR}, #{position,jdbcType=INTEGER}, 
+      #{selected,jdbcType=BIT}, #{city,jdbcType=BIT})
+  </insert>
+    <insert id="insertSelective" parameterType="com.example.hforum.model.Channel">
+        insert into channel
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="channelId != null">
+                channel_id,
+            </if>
+            <if test="channelName != null">
+                channel_name,
+            </if>
+            <if test="position != null">
+                position,
+            </if>
+            <if test="selected != null">
+                selected,
+            </if>
+            <if test="city != null">
+                city,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="channelId != null">
+                #{channelId,jdbcType=INTEGER},
+            </if>
+            <if test="channelName != null">
+                #{channelName,jdbcType=VARCHAR},
+            </if>
+            <if test="position != null">
+                #{position,jdbcType=INTEGER},
+            </if>
+            <if test="selected != null">
+                #{selected,jdbcType=BIT},
+            </if>
+            <if test="city != null">
+                #{city,jdbcType=BIT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.example.hforum.model.Channel">
+        update channel
+        <set>
+            <if test="channelName != null">
+                channel_name = #{channelName,jdbcType=VARCHAR},
+            </if>
+            <if test="position != null">
+                position = #{position,jdbcType=INTEGER},
+            </if>
+            <if test="selected != null">
+                selected = #{selected,jdbcType=BIT},
+            </if>
+            <if test="city != null">
+                city = #{city,jdbcType=BIT},
+            </if>
+        </set>
+        where channel_id = #{channelId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.example.hforum.model.Channel">
+    update channel
+    set channel_name = #{channelName,jdbcType=VARCHAR},
+      position = #{position,jdbcType=INTEGER},
+      selected = #{selected,jdbcType=BIT},
+      city = #{city,jdbcType=BIT}
+    where channel_id = #{channelId,jdbcType=INTEGER}
+  </update>
+
+    <sql id="whereCondition">
+        <!-- 注：CONCAT是mysql数据库中才有的 -->
+        <if test="channelName != null and !&quot;&quot;.equals(channelName.trim())">
+            and channel_name like concat('%',trim(#{channelName,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="selected != null">
+            and selected = #{selected,jdbcType=BIT}
+        </if>
+    </sql>
+
+
+    <select id="list" parameterType="com.example.hforum.model.Channel" resultMap="BaseResultMap">
+        select * from channel
+        <where>
+            <include refid="whereCondition"></include>
+        </where>
+        order by   selected desc ,position asc
+    </select>
+
+    <select id="selectMaxPostion" parameterType="com.example.hforum.model.Channel" resultType="java.lang.Integer">
+        select max(position) from channel where selected = #{selected,jdbcType=BIT}
+    </select>
+
+    <select id="selectByChannelName" parameterType="java.lang.String"  resultMap="BaseResultMap">
+        select * from channel where channel_name = #{channelName,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectBackChannel" parameterType="com.example.hforum.model.Channel" resultMap="BaseResultMap">
+        select * from channel where position &gt;
+       (select position from channel where channel_id = #{channelId,jdbcType=INTEGER})
+        and selected = #{selected,jdbcType=BIT}
+    </select>
+
+    <select id="selectByNewsId" parameterType="java.lang.Long"  resultMap="BaseResultMap">
+        select c.channel_name
+        from channel c
+        inner join news_channel nc
+        on c.channel_id=nc.cid
+        and nc.nid = #{newsId,jdbcType=BIGINT}
+    </select>
+</mapper>

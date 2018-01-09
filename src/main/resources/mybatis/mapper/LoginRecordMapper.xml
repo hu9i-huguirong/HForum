@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.hforum.mapper.LoginRecordMapper">
+  <resultMap id="BaseResultMap" type="com.example.hforum.model.LoginRecord">
+    <id column="login_record_id" jdbcType="BIGINT" property="loginRecordId" />
+    <result column="login_user_id" jdbcType="BIGINT" property="loginUserId" />
+    <result column="login_time" jdbcType="TIMESTAMP" property="loginTime" />
+    <result column="login_ip" jdbcType="VARCHAR" property="loginIp" />
+    <result column="login_type" jdbcType="BIGINT" property="loginType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    login_record_id, login_user_id, login_time, login_ip, login_type
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from login_record
+    where login_record_id = #{loginRecordId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from login_record
+    where login_record_id = #{loginRecordId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.example.hforum.model.LoginRecord">
+    insert into login_record (login_record_id, login_user_id, login_time, 
+      login_ip, login_type)
+    values (#{loginRecordId,jdbcType=BIGINT}, #{loginUserId,jdbcType=BIGINT}, #{loginTime,jdbcType=TIMESTAMP}, 
+      #{loginIp,jdbcType=VARCHAR}, #{loginType,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.hforum.model.LoginRecord">
+    insert into login_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="loginRecordId != null">
+        login_record_id,
+      </if>
+      <if test="loginUserId != null">
+        login_user_id,
+      </if>
+      <if test="loginTime != null">
+        login_time,
+      </if>
+      <if test="loginIp != null">
+        login_ip,
+      </if>
+      <if test="loginType != null">
+        login_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="loginRecordId != null">
+        #{loginRecordId,jdbcType=BIGINT},
+      </if>
+      <if test="loginUserId != null">
+        #{loginUserId,jdbcType=BIGINT},
+      </if>
+      <if test="loginTime != null">
+        #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loginIp != null">
+        #{loginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="loginType != null">
+        #{loginType,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.hforum.model.LoginRecord">
+    update login_record
+    <set>
+      <if test="loginUserId != null">
+        login_user_id = #{loginUserId,jdbcType=BIGINT},
+      </if>
+      <if test="loginTime != null">
+        login_time = #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loginIp != null">
+        login_ip = #{loginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="loginType != null">
+        login_type = #{loginType,jdbcType=BIGINT},
+      </if>
+    </set>
+    where login_record_id = #{loginRecordId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.hforum.model.LoginRecord">
+    update login_record
+    set login_user_id = #{loginUserId,jdbcType=BIGINT},
+      login_time = #{loginTime,jdbcType=TIMESTAMP},
+      login_ip = #{loginIp,jdbcType=VARCHAR},
+      login_type = #{loginType,jdbcType=BIGINT}
+    where login_record_id = #{loginRecordId,jdbcType=BIGINT}
+  </update>
+
+
+  <!--查询上次登录的记录-->
+  <select id="selectLastRecord" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    SELECT * FROM login_record
+    where login_user_id = #{loginUserId,jdbcType=BIGINT}
+    ORDER BY login_time DESC LIMIT 1,1
+  </select>
+
+  <!--查询登录次数-->
+  <select id="selectLoginCount" parameterType="com.example.hforum.model.LoginRecord" resultType="java.lang.Long">
+   SELECT COUNT(*)  FROM login_record
+    where login_user_id = #{loginUserId,jdbcType=BIGINT}
+    AND login_type = #{loginType,jdbcType=BIGINT}
+  </select>
+
+</mapper>

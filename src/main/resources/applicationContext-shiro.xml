@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+
+       xsi:schemaLocation="
+	    http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!-- 1. 配置 SecurityManager! -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="cacheManager" ref="cacheManager"/>
+      <!-- <property name="authenticator" ref="authenticator"></property>-->
+        <!-- 用我们自己的认证器 -->
+        <property name="authenticator" ref="defineModularRealmAuthenticator" />
+        <property name="sessionManager" ref="sessionManager"/>
+        <!--  <property name="realm" ref="userLoginRealm"/>-->
+        <property name="realms">
+            <list>
+                <ref bean="userLoginRealm" />
+                <ref bean="adminLoginRealm" />
+            </list>
+        </property>
+
+        <!-- <property name="rememberMeManager.cookie.maxAge" value="10"></property> -->
+    </bean>
+
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <property name="globalSessionTimeout" value="1800000"/><!-- 设置全局的Session过期时间。单位:毫秒-->
+        <property name="deleteInvalidSessions" value="true"/>
+        <property name="sessionDAO" ref="sessionDAO"/>
+        <property name="sessionIdCookieEnabled" value="true"/>
+        <property name="sessionIdCookie" ref="sessionIdCookie"/>
+        <property name="sessionValidationSchedulerEnabled" value="true"/>
+        <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
+        <property name="cacheManager" ref="cacheManager"/>
+    </bean>
+    <!-- 会话DAO，sessionManager里面的session需要保存在会话Dao里，没有会话Dao，session是瞬时的，没法从
+    sessionManager里面拿到session -->
+    <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
+        <property name="sessionIdGenerator" ref="sessionIdGenerator"/>
+        <property name="activeSessionsCacheName" value="shiro-activeSessionCache"/>
+    </bean>
+    <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg value="sid"/>
+        <property name="httpOnly" value="true"/>
+        <property name="maxAge" value="-1"/>
+    </bean>
+    <!-- 会话ID生成器 -->
+    <bean id="sessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"></bean>
+    <!-- 会话验证调度器 -->
+    <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler ">
+        <property name="interval" value="1800000"/>
+        <property name="sessionManager" ref="sessionManager"/>
+    </bean>
+
+    <bean id="kickoutSessionControlFilter"  class="com.example.hforum.shiro.filters.KickoutSessionControlFilter">
+        <property name="sessionManager" ref="sessionManager"/>
+        <property name="cacheManager" ref="cacheManager"/>
+        <property name="kickoutAfter" value="false"/>
+        <property name="maxSession" value="1"/>
+    </bean>
+
+  <!-- <bean id="logout" class="org.apache.shiro.web.filter.authc.LogoutFilter">
+        <property name="redirectUrl" value="/user/logout" />
+    </bean>-->
+
+
+    <!-- 2. 配置 CacheManager. 2.1 需要加入 ehcache 的 jar 包及配置文件. -->
+    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:ehcache.xml"/>
+    </bean>
+    <bean id="authenticator" class="org.apache.shiro.authc.pam.ModularRealmAuthenticator">
+
+        <!-- 认证策略:至少一个Realm通过 -->
+        <!-- <property name="authenticationStrategy">
+            <bean class="org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy"></bean>
+        </property> -->
+    </bean>
+
+    <!-- 3. 配置 Realm 3.1 直接配置实现了 org.apache.shiro.realm.Realm 接口的 bean -->
+
+    <!-- 指定Shiro验证前台用户登录的类-->
+    <bean id="userLoginRealm" class="com.example.hforum.shiro.realms.UserLoginRealm">
+    </bean>
+
+    <!-- 指定Shiro验证后台用户登录的类 -->
+    <bean id="adminLoginRealm" class="com.example.hforum.shiro.realms.AdminLoginRealm">
+        <property name="credentialsMatcher">
+            <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+                <!-- 密码比对使用MD5加密算法 -->
+                <property name="hashAlgorithmName" value="MD5"></property>
+                <!-- 加密的次数 -->
+                <property name="hashIterations" value="1024"></property>
+            </bean>
+        </property>
+    </bean>
+
+    <!--多个realm 的集中管理  -->
+    <bean id="defineModularRealmAuthenticator" class=" com.example.hforum.shiro.realms.DefautModularRealm">
+        <property name="definedRealms">
+            <map>
+                <entry key="userLoginRealm" value-ref="userLoginRealm" />
+                <entry key="adminLoginRealm" value-ref="adminLoginRealm" />
+            </map>
+        </property>
+        <!-- <property name="authenticationStrategy">
+             <bean class="org.apache.shiro.authc.pam.FirstSuccessfulStrategy" />
+         </property>-->
+    </bean>
+
+    <!-- 4. 配置 LifecycleBeanPostProcessor. 可以自定的来调用配置在 Spring IOC 容器中 shiro
+        bean 的生命周期方法. -->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <!-- 5. 启用 IOC 容器中使用 shiro 的注解. 但必须在配置了 LifecycleBeanPostProcessor 之后才可以使用. -->
+    <bean
+            class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+            depends-on="lifecycleBeanPostProcessor"/>
+    <bean
+            class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+
+    <!-- 前后台登录分离 -->
+  <bean id="loginFormAuthenticationFilter"
+          class="com.example.hforum.shiro.filters.LoginFormAuthenticationFilter">
+    </bean>
+    <!-- 过滤链定义 -->
+    <!-- 6. 配置 ShiroFilter. 6.1 id 必须和 web.xml 文件中配置的 DelegatingFilterProxy
+       的 <filter-name> 一致. 若不一致, 则会抛出: NoSuchBeanDefinitionException. 因为 Shiro 会来
+       IOC 容器中查找和 <filter-name> 名字对应的 filter bean. -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <property name="unauthorizedUrl" value="/common/403"></property>
+        <property name="loginUrl" value="/login" />
+        <property name="filters">
+              <map>
+                  <entry key="kickout" value-ref="kickoutSessionControlFilter"/>
+                  <entry key="authc" value-ref="loginFormAuthenticationFilter"/>
+              </map>
+          </property>
+        <property name="filterChainDefinitionMap" ref="filterChainDefinitionMap"></property>
+    </bean>
+
+    <!-- 该 bean 实际上是一个 Map. 通过实例工厂方法的方式 -->
+    <bean id="filterChainDefinitionMap"
+          factory-bean="filterChainDefinitionMapBuilder" factory-method="buildFilterChainDefinitionMap"></bean>
+
+    <bean id="filterChainDefinitionMapBuilder"
+          class="com.example.hforum.shiro.factory.FilterChainDefinitionMapBuilder"></bean>
+
+</beans>

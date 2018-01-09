@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.hforum.mapper.ImageMapper">
+  <resultMap id="BaseResultMap" type="com.example.hforum.model.Image">
+    <id column="image_id" jdbcType="BIGINT" property="imageId" />
+    <result column="image_content" jdbcType="VARCHAR" property="imageContent" />
+    <result column="image_news_id" jdbcType="BIGINT" property="imageNewsId" />
+    <result column="upload_user_id" jdbcType="BIGINT" property="uploadUserId" />
+    <result column="image_type" jdbcType="INTEGER" property="imageType" />
+    <result column="upload_time" jdbcType="TIMESTAMP" property="uploadTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    image_id, image_content, image_news_id, upload_user_id, image_type, upload_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from image
+    where image_id = #{imageId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from image
+    where image_id = #{imageId,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insert" parameterType="com.example.hforum.model.Image" >
+    insert into image (image_id, image_content, image_news_id, 
+      upload_user_id, image_type, upload_time
+      )
+    values (#{imageId,jdbcType=BIGINT}, #{imageContent,jdbcType=VARCHAR}, #{imageNewsId,jdbcType=BIGINT}, 
+      #{uploadUserId,jdbcType=BIGINT}, #{imageType,jdbcType=INTEGER}, #{uploadTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <!--
+keyProperty表示返回的id要保存到对象的那个属性中，这里的名字要和对象的字段名对应上
+useGeneratedKeys表示主键id为自增长模式。mysql的话只要加上这两个属性就可以了
+-->
+  <insert id="insertSelective" parameterType="com.example.hforum.model.Image" useGeneratedKeys="true" keyProperty="imageId">
+    insert into image
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="imageId != null">
+        image_id,
+      </if>
+      <if test="imageContent != null">
+        image_content,
+      </if>
+      <if test="imageNewsId != null">
+        image_news_id,
+      </if>
+      <if test="uploadUserId != null">
+        upload_user_id,
+      </if>
+      <if test="imageType != null">
+        image_type,
+      </if>
+      <if test="uploadTime != null">
+        upload_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="imageId != null">
+        #{imageId,jdbcType=BIGINT},
+      </if>
+      <if test="imageContent != null">
+        #{imageContent,jdbcType=VARCHAR},
+      </if>
+      <if test="imageNewsId != null">
+        #{imageNewsId,jdbcType=BIGINT},
+      </if>
+      <if test="uploadUserId != null">
+        #{uploadUserId,jdbcType=BIGINT},
+      </if>
+      <if test="imageType != null">
+        #{imageType,jdbcType=INTEGER},
+      </if>
+      <if test="uploadTime != null">
+        #{uploadTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.hforum.model.Image">
+    update image
+    <set>
+      <if test="imageContent != null">
+        image_content = #{imageContent,jdbcType=VARCHAR},
+      </if>
+      <if test="imageNewsId != null">
+        image_news_id = #{imageNewsId,jdbcType=BIGINT},
+      </if>
+      <if test="uploadUserId != null">
+        upload_user_id = #{uploadUserId,jdbcType=BIGINT},
+      </if>
+      <if test="imageType != null">
+        image_type = #{imageType,jdbcType=INTEGER},
+      </if>
+      <if test="uploadTime != null">
+        upload_time = #{uploadTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where image_id = #{imageId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.hforum.model.Image">
+    update image
+    set image_content = #{imageContent,jdbcType=VARCHAR},
+      image_news_id = #{imageNewsId,jdbcType=BIGINT},
+      upload_user_id = #{uploadUserId,jdbcType=BIGINT},
+      image_type = #{imageType,jdbcType=INTEGER},
+      upload_time = #{uploadTime,jdbcType=TIMESTAMP}
+    where image_id = #{imageId,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectByNewsId" parameterType="java.lang.Long"  resultMap="BaseResultMap">
+    select i.*
+    from image i
+    where i.image_news_id= #{newsId,jdbcType=BIGINT}
+  </select>
+</mapper>

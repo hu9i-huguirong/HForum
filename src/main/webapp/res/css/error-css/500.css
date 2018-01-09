@@ -1,0 +1,10 @@
+.container {
+	background: url(../../images/error-image/500-bg.png) no-repeat 560px top;
+}
+
+.settings .icon {
+	display: block;
+	width: 242px;
+	height: 106px;
+	background: url(../../images/error-image/500.png) no-repeat 0 0;
+}

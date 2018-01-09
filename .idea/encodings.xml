@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/com/webxml/ArrayOfString.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/com/webxml/DataSet.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/com/webxml/GetSupportCity.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/com/webxml/GetSupportCityResponse.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/com/webxml/GetSupportDataSet.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/com/webxml/GetSupportDataSetResponse.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/com/webxml/GetSupportProvince.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/com/webxml/GetSupportProvinceResponse.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/com/webxml/GetWeatherbyCityName.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/com/webxml/GetWeatherbyCityNamePro.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/com/webxml/GetWeatherbyCityNameProResponse.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/com/webxml/GetWeatherbyCityNameResponse.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/com/webxml/WeatherWebService.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/com/webxml/WeatherWebServiceSoap.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/com/webxml/package-info.java" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>

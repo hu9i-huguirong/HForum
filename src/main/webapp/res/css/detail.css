@@ -1,6 +1,6 @@
 @charset "utf-8";
 /*top*/
-.top_wrap{ height:40px;line-height:40px; background:#f8f8f8; border-bottom:1px solid #e0e0e0;}
+.top_wrap{ height:40px;line-height:40px; background:#393D49; border-bottom:3px solid #5FB878;}
 .top_wrap .top_left{ cursor:pointer; background:url(../../res/images/news-detail/index_ico1.png) no-repeat left center; padding-left:25px;}
 .top_wrap .top_right li{ float:left; margin-right:15px;}
 .top_wrap .top_right .register{ background:url(../../res/images/news-detail/index_ico2.png) no-repeat left center; padding-left:25px;}

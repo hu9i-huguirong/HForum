@@ -9,8 +9,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
     <%@include file="/WEB-INF/jsp/common/common.jsp" %>
+    <c:if test="${detailNewsVo==null}">
+        <c:redirect url="/news/detail/${param.newsId}"/>
+    </c:if>
+    <title>${detailNewsVo.news.newsTitle}</title>
     <link type="text/css" rel="stylesheet" href="res/css/slides-playing/base.css">
     <link type="text/css" rel="stylesheet" href="res/css/detail.css">
     <link rel="stylesheet" href="res/admin/plugins/layui-v2.2.45/css/layui.css" media="all">
@@ -26,16 +29,13 @@
     <script src="res/admin/plugins/layui-v2.2.45/layui.js" charset="utf-8"></script>
 </head>
 <body style="overflow-x:hidden"><%-- 去横向滚动条 --%>
-<c:if test="${detailNewsVo==null}">
-    <c:redirect url="/news/detail/${param.newsId}"/>
-</c:if>
 <!--top-->
 <div class="top_wrap">
     <div class="clearfix top w1200">
-        <div class="fl top_left"><a href="/" target="_blank" title="HForum">HForum首页</a></div>
+        <div class="fl top_left" ><a href="/" target="_blank" title="HForum" style="color: #FFFFFF">&nbsp;&nbsp;&nbsp;首页</a></div>
         <ul class="fr clearfix top_right">
-            <li class="register"><a href="javascript:;">注册</a></li>
-            <li class="login"><a href="javascript:;">登陆</a></li>
+            <li class="register"><a href="javascript:;" style="color: #FFFFFF">注册</a></li>
+            <li class="login"><a href="javascript:;" style="color: #FFFFFF">登陆</a></li>
         </ul>
     </div>
 </div>
@@ -72,8 +72,10 @@
                     <img src="res/images/news-detail/qq.png" title="QQ"
                          style="width: 30px;height: 30px;margin-right: 10px;cursor:pointer">
                     <img src="res/images/news-detail/qzone.png" title="QQ空间"
-                         style="width: 30px;height: 30px;margin-right: 10px;cursor:pointer">
+                         style="width: 32px;height: 32px;margin-right: 10px;cursor:pointer">
                     <img src="res/images/news-detail/wechat.png" title="微信"
+                         style="width: 30px;height: 30px;margin-right: 10px;cursor:pointer">
+                    <img src="res/images/news-detail/wechat_friend.png" title="微信朋友圈"
                          style="width: 30px;height: 30px;margin-right: 10px;cursor:pointer">
                     <img src="res/images/news-detail/weibo.png" title="微博"
                          style="width: 30px;height: 30px;cursor:pointer">
@@ -2137,7 +2139,7 @@
                             <div class="close-w">
                                 <a node-type="close" href="javascript:void(0)">关闭</a>
                             </div>
-                            <div class="float-bar-logo"></div>
+                           <%-- <div class="float-bar-logo"></div>--%>
                             <div class="wrap-cont-w">
                                 <!-- 评论 Begin -->
                                 <div class="cont-minwidth-w">
@@ -2216,6 +2218,10 @@
             layer.msg(elem.text());
         });
     });
+</script>
+<script src="res/js/dialog/jquery.hDialog.min.js"></script>
+<script type="text/javascript">
+    $.goTop();
 </script>
 </body>
 

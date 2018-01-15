@@ -5,16 +5,26 @@
   Time: 20:29
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-    <title>Title</title>
+    <title></title>
+    <%@include file="/WEB-INF/jsp/common/common.jsp" %>
+    <link rel="stylesheet" type="text/css" href="res/css/timedropper.css">
+    <script src="res/js/timedropper.js"></script>
 </head>
 <body>
 <div style="margin-top: 200px;margin-left: 200px">
     <i style="color: #EBEBEB;font-size: 28px;font-family: Helvetica Neue, Helvetica, PingFang SC, 微软雅黑, Tahoma, Arial, sans-serif">HForum</i>
 </div>
 
+
+
+<center><br><br><br>
+    <input type="text" id="alarm" />
+</center>
+<script>$( "#alarm" ).timeDropper();</script>
 
 
 </body>

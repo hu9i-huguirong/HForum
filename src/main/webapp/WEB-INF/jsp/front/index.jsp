@@ -9,7 +9,6 @@
 <link type="text/css" rel="stylesheet" href="res/css/slides-playing/base.css">
 <link type="text/css" rel="stylesheet" href="res/css/slides-playing/index.css">
  <link rel="stylesheet" href="res/admin/plugins/layui-v2.2.45/css/layui.css" media="all">
-<script src="res/js/jquery.SuperSlide.2.1.1.js"></script>
 </head>
 <body style="min-width: 1220px; overflow-x: hidden;">
 <div class="y-wrap">

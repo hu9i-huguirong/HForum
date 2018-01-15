@@ -15,9 +15,12 @@ public class IDUtil {
 	/**
 	 * 获取UUID
 	 */
-	public static String createUUID() {
+	public static String createUUID(boolean upperCase) {
 		String s = UUID.randomUUID().toString();
 		s = s.replace("-", "");
-		return s.toUpperCase();
+		if(upperCase){
+			return s.toUpperCase();
+		}
+		return s;
 	}
 }

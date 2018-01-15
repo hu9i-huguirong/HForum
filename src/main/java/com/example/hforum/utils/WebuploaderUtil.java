@@ -41,7 +41,7 @@ public class WebuploaderUtil {
             if (!destFile.exists()) {
                 destFile.mkdirs();
             }
-            String fileNewName = IDUtil.createUUID();
+            String fileNewName = IDUtil.createUUID(true);
             File f = new File(destFile.getAbsoluteFile() + "/" + fileNewName);
             file.transferTo(f);
             f.createNewFile();
@@ -74,7 +74,7 @@ public class WebuploaderUtil {
                 }
                 // String fileNewName = IDUtil.createUUID()+"."+suffix;
                 //不加后缀名
-                String fileNewName = IDUtil.createUUID();
+                String fileNewName = IDUtil.createUUID(true);
                 File f = new File(destFile.getAbsoluteFile() + "/" + fileNewName);
                 //MultipartFile自带的解析方法
                 file.transferTo(f);

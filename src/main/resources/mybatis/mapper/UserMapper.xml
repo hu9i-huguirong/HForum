@@ -8,6 +8,7 @@
         <result column="email" jdbcType="VARCHAR" property="email"/>
         <result column="cell_phone_number" jdbcType="BIGINT" property="cellPhoneNumber"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="activate_key" jdbcType="VARCHAR" property="password"/>
         <result column="register_time" jdbcType="TIMESTAMP" property="registerTime"/>
         <result column="user_status" jdbcType="BIGINT" property="userStatus"/>
     </resultMap>

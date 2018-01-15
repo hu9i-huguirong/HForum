@@ -288,15 +288,20 @@
             <version>20160810</version>
         </dependency>
         <!--${basedir}表示项目根目录,即包含pom.xml文件的目录;${project.basedir}同${basedir};-->
-    <!--    <dependency>
-            <groupId>com.baidu</groupId>
-            <artifactId>ueditor</artifactId>
-            <version>1.4.3.3</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/ueditor-1.1.2.jar</systemPath>
-        </dependency>-->
-
-
+        <!--    <dependency>
+                <groupId>com.baidu</groupId>
+                <artifactId>ueditor</artifactId>
+                <version>1.4.3.3</version>
+                <scope>system</scope>
+                <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/ueditor-1.1.2.jar</systemPath>
+            </dependency>-->
+        <!-- 邮件 -->
+        <!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.5.0-b01</version>
+        </dependency>
     </dependencies>
 
     <build>

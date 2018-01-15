@@ -23,6 +23,16 @@ public class User {
 
 	private Long userStatus;
 
+	private String activateKey;
+
+	public String getActivateKey() {
+		return activateKey;
+	}
+
+	public void setActivateKey(String activateKey) {
+		this.activateKey = activateKey;
+	}
+
 	// 一个用户有多个角色
 	Set<Role> setRole = new HashSet<>();
 

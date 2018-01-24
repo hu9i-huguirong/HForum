@@ -124,7 +124,7 @@ function createHead( provinceName,cityName,code) {
         heads += " <ul class=\"y-right\"><li class=\"tb-item\"><a class=\"tb-link\" href=\"javascript:void(0)\">首页</a></li>";
         heads += "<li class=\"tb-item\"><a class=\"tb-link\" href=\"/\" target=\"_blank\">下载APP</a></li>";
         heads += "<li class=\"tb-item zoomIn dialog\"><a class=\"tb-link\" href=\"javascript:void(0)\">登录</a></li>";
-        heads += " <li class=\"tb-item\"><a class=\"tb-link\" href=\"javascript:void(0)\">注册</a></li>";
+        heads += " <li class=\"tb-item\"><a class=\"tb-link\" href=\"/register\" target=\"_blank\">注册</a></li>";
         heads += "<li class=\"tb-item\"><a class=\"tb-link\" href=\"javascript:void(0)\">反馈</a></li>";
         heads += "<li class=\"tb-item more\"><a class=\"tb-link\" href=\"/about/\">更多产品</a>";
         heads += "<div class=\"layer\"><ul><li><a href=\"/\" class=\"layer-item\" target=\"_blank\">HForum社区</a></li>";

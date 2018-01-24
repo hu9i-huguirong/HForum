@@ -51,7 +51,7 @@ public class AdminLoginRealm extends AuthorizingRealm {
 			// 邮箱登录
 			u.setEmail(username);
 		}
-		User user = userService.login(u);
+		User user = userService.loadSelective(u);
 		//登录后台
 		user.setLoginType(2);
 

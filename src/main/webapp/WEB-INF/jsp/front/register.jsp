@@ -13,6 +13,7 @@
     <%@include file="/WEB-INF/jsp/common/common.jsp" %>
     <link type="text/css" rel="stylesheet" href="res/css/register/base.css"/>
     <link type="text/css" rel="stylesheet" href="res/css/register/layout.css"/>
+    <link type="text/css" rel="stylesheet" href="res/css/register/loading.css">
     <link rel="stylesheet" href="res/admin/plugins/layui-v2.2.45/css/layui.css" media="all">
     <link rel="stylesheet" type="text/css" href="res/plugins/verify/css/verify.css">
     <link rel="stylesheet" type="text/css" href="res/css/register/pwd.css">
@@ -20,10 +21,10 @@
 </head>
 <body>
 <div id="wrapper">
-    <header id="header">
+    <header id="header" >
         <div id="headBox">
             <div class="w960 oh">
-                <a href="/" class="fl mt10" style="margin-top: 15px"><img src="res/images/news-detail/index_ico1.png"/></a>
+                <a href="/" class="fl mt10" style="margin-top: 15px; "><img src="res/images/news-detail/index_ico1.png"/></a>
                 <nav id="navs">
                     <a style="color: #FFFFFF;font-size: 22px">HForum&nbsp;<span style="font-size: 16px">●</span>&nbsp;注册</a>
                 </nav>
@@ -57,7 +58,7 @@
         <div class="content">
             <ul style="width: 860px;height: 550px;margin-left: 150px ">
                 <li id="step1" class="step hide">
-                    <form class="layui-form layui-form-pane" action="">
+                    <form id="form-register" class="layui-form layui-form-pane" action="">
                         <div class="layui-form-item">
                             <div class="layui-form-item" style="width: 250px;margin-left: 150px;">
                                 <div class="layui-unselect layui-form-select layui-form-selected" >
@@ -86,7 +87,7 @@
                             <label class="layui-form-label" style="width: 150px"><span
                                     style="color:#F00">*</span>&nbsp;密码</label>
                             <div class="layui-input-block">
-                                <input style="width:250px;float: left" id="userPass" name="userPwd"
+                                <input style="width:250px;float: left" id="userPass" name="password"
                                        lay-verify="required|pass" type="password"
                                        placeholder="请输入密码"
                                        class="layui-input">
@@ -146,6 +147,25 @@
             </ul>
         </div>
     </div><!-- // container end -->
+    <div id="loading" style="display: none">
+        <svg class="filter" version="1.1">
+            <defs>
+                <filter id="gooeyness">
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+                    <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -10" result="gooeyness" />
+                    <feComposite in="SourceGraphic" in2="gooeyness" operator="atop" />
+                </filter>
+            </defs>
+        </svg>
+        <p style="color: white;font-size: 25px">请稍等</p>
+        <div class="dots">
+            <div class="dot mainDot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
     <footer id="footer" class="w960 oh">
 
     </footer><!-- // footer end -->

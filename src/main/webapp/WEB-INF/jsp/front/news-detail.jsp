@@ -26,17 +26,19 @@
         }
     </style>
     <link rel="stylesheet" href="res/plugins/chanyan/css/pinlun.css"/>
-    <script src="res/admin/plugins/layui-v2.2.45/layui.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="res/plugins/shared/share.min.css">
 </head>
 <body style="overflow-x:hidden"><%-- 去横向滚动条 --%>
 <!--top-->
 <div class="top_wrap">
-    <div class="clearfix top w1200">
+    <div class="clearfix top w1200"  >
         <div class="fl top_left" ><a href="/" target="_blank" title="HForum" style="color: #FFFFFF">&nbsp;&nbsp;&nbsp;首页</a></div>
-        <ul class="fr clearfix top_right">
-            <li class="register"><a href="javascript:;" style="color: #FFFFFF">注册</a></li>
-            <li class="login"><a href="javascript:;" style="color: #FFFFFF">登陆</a></li>
-        </ul>
+        <div class="fr top_right"  >
+            <ul class="clearfix">
+                <li class="register"><a href="/register" target="_blank" style="color: #FFFFFF">注册</a></li>
+                <li class="login"><a href="javascript:;" style="color: #FFFFFF">登陆</a></li>
+            </ul>
+        </div>
     </div>
 </div>
 <!--/top-->
@@ -68,17 +70,10 @@
                         <a href="javascript:;">${v.channelName}</a>
                     </c:forEach>
                 </div>
-                <div class="fr share"><span>分享到: </span>
-                    <img src="res/images/news-detail/qq.png" title="QQ"
-                         style="width: 30px;height: 30px;margin-right: 10px;cursor:pointer">
-                    <img src="res/images/news-detail/qzone.png" title="QQ空间"
-                         style="width: 32px;height: 32px;margin-right: 10px;cursor:pointer">
-                    <img src="res/images/news-detail/wechat.png" title="微信"
-                         style="width: 30px;height: 30px;margin-right: 10px;cursor:pointer">
-                    <img src="res/images/news-detail/wechat_friend.png" title="微信朋友圈"
-                         style="width: 30px;height: 30px;margin-right: 10px;cursor:pointer">
-                    <img src="res/images/news-detail/weibo.png" title="微博"
-                         style="width: 30px;height: 30px;cursor:pointer">
+                <div class="fr share" style="width: 250px"><span style="float: left;margin-top: 7px">分享到: </span>
+                    <li class="row">
+                        <div id="share"></div>
+                    </li>
                 </div>
             </div>
         </div>
@@ -2208,20 +2203,13 @@
     <!--/left-->
 
 </div>
-<script>
-    layui.use('element', function () {
-        var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
-
-        //监听导航点击
-        element.on('nav(demo)', function (elem) {
-            //console.log(elem)
-            layer.msg(elem.text());
-        });
-    });
-</script>
 <script src="res/js/dialog/jquery.hDialog.min.js"></script>
+<script src="res/plugins/shared/jquery.share.min.js"></script>
 <script type="text/javascript">
+  var v =  $(document).width()+"px";
+    $(".top_wrap").css("width",v);
     $.goTop();
+    $('#share').share({sites: ['qzone', 'qq', 'weibo','wechat']});
 </script>
 </body>
 

@@ -5,9 +5,9 @@
 <Configuration status="WARN" monitorInterval="30">
 	<Properties>
 		<!-- 配置日志文件输出目录 ${sys:user.home} -->
-		<Property name="LOG_HOME">/root/workspace/lucenedemo/logs</Property>
-		<property name="ERROR_LOG_FILE_NAME">/root/workspace/lucenedemo/logs/error</property>
-		<property name="WARN_LOG_FILE_NAME">/root/workspace/lucenedemo/logs/warn</property>
+		<Property name="LOG_HOME">/root/logs</Property>
+		<property name="ERROR_LOG_FILE_NAME">/root/logs/error</property>
+		<property name="WARN_LOG_FILE_NAME">/root/logs/warn</property>
 		<property name="PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t-%L] %-5level %logger{36} - %msg%n</property>
 	</Properties>
 

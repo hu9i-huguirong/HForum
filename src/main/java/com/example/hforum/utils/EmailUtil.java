@@ -4,8 +4,11 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.Properties;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 邮件发送工具类
@@ -26,7 +29,7 @@ public class EmailUtil {
      * 发送邮件的方法
      *
      * @param receiveMailAccount :收件人
-     * @param activateKey               :激活码
+     * @param activateKey        :激活码
      */
     public static void sendMail(String receiveMailAccount, String activateKey) throws Exception {
         // 1. 创建参数配置, 用于连接邮件服务器的参数配置
@@ -53,7 +56,7 @@ public class EmailUtil {
         props.setProperty("mail.smtp.socketFactory.port", smtpPort);
 
         // 3. 创建一封邮件
-        MimeMessage message = createMimeMessage(session, myEmailAccount, receiveMailAccount,activateKey);
+        MimeMessage message = createMimeMessage(session, myEmailAccount, receiveMailAccount, activateKey);
 
         // 4. 根据 Session 获取邮件传输对象
         Transport transport = session.getTransport();
@@ -90,7 +93,7 @@ public class EmailUtil {
         message.setSubject("【HForum】帐号激活邮件", "UTF-8");
 
         // 5. Content: 邮件正文（可以使用html标签）（内容有广告嫌疑，避免被邮件服务器误认为是滥发广告以至返回失败，请修改发送内容）
-        message.setContent(registerActivateEmailHtml(receiveMail,activateKey), "text/html;charset=UTF-8");
+        message.setContent(registerActivateEmailHtml(receiveMail, activateKey), "text/html;charset=UTF-8");
 
         // 6. 设置发件时间
         message.setSentDate(new Date());
@@ -108,12 +111,36 @@ public class EmailUtil {
         html += "<p><span style=\"font-family: 楷体, 楷体_GB2312, SimKai;\">&nbsp; &nbsp; &nbsp; &nbsp; 请点击下面的链接来激活您的帐号，</span>&nbsp;<br></p>";
         html += "<p><span style=\"font-family: 楷体, 楷体_GB2312, SimKai;\">&nbsp; &nbsp; &nbsp; &nbsp;</span><span style=\"font-family: 楷体, 楷体_GB2312, SimKai;\"> 链接：</span>";
         html += "<a href=\"http://localhost:8080/user/register/activate?activateKey=" + activateKey + "\" style=\"font-family: 楷体, 楷体_GB2312, SimKai;\" target=\"_blank\">";
-        html += "\"http://localhost:8080/user/register/activate?activateKey=" + activateKey + "\"</a></p><p><span style=\"font-family: 楷体, 楷体_GB2312, SimKai;\">&nbsp; &nbsp; &nbsp; &nbsp;（如果您的邮箱不支持链接点击，请将以上链接地址拷贝到您的浏览器地址栏中激活。）</span>&nbsp;<br></p>";
+        html += "http://localhost:8080/user/register/activate?activateKey=" + activateKey + "</a></p><p><span style=\"font-family: 楷体, 楷体_GB2312, SimKai;\">&nbsp; &nbsp; &nbsp; &nbsp;（如果您的邮箱不支持链接点击，请将以上链接地址拷贝到您的浏览器地址栏中激活。）</span>&nbsp;<br></p>";
         html += "<p><span style=\"font-family: 楷体, 楷体_GB2312, SimKai;\">------------------------------------------------------------------------------------</span>&nbsp;<br></p>";
-        html += "<p><span style=\"font-family: 楷体, 楷体_GB2312, SimKai;\">&nbsp; &nbsp; &nbsp; &nbsp;若非本人操作，请忽略此邮件。感谢您的访问，祝您使用愉快！</span></p>";
+        html += "<p><span style=\"font-family: 楷体, 楷体_GB2312, SimKai;\">&nbsp; &nbsp; &nbsp; &nbsp;链接10分钟内有效，若非本人操作，请忽略此邮件。感谢您的访问，祝您使用愉快！</span></p>";
         html += "<p><span style=\"font-family: 楷体, 楷体_GB2312, SimKai;\">&nbsp; &nbsp; &nbsp; &nbsp;</span><span style=\"font-family: 楷体, 楷体_GB2312, SimKai;\"> HForum团队 </span><a href=\"http://localhost:8080\" style=\"font-family: 楷体, 楷体_GB2312, SimKai;\" target=\"_blank\">http://localhost:8080</a></p>";
         html += "<br/><p><span style=\"font-family: 楷体, 楷体_GB2312, SimKai;\">&nbsp; &nbsp; &nbsp; &nbsp;此邮件为系统自动发出，请勿直接回复。</span></p>";
         return html;
+    }
+
+    public static void schedule(String receiveMailAccount, final HttpSession session, String activateKey) throws Exception {
+
+        Timer t = (Timer) session.getAttribute("timer");
+        if (t != null) {
+            t.cancel();
+            session.removeAttribute("timer");
+            String k = (String) session.getAttribute("activateKey");
+            if (k != null) {
+                session.removeAttribute("activateKey");
+            }
+        }
+
+        session.setAttribute("activateKey", activateKey);//把激活码放入session
+        sendMail(receiveMailAccount, activateKey);//调用发送邮箱的方法，给用户发送邮件
+        final Timer timer = new Timer();//定时器，验证码10分钟之内没有点击链接进入就失效
+        timer.schedule(new TimerTask() {
+            public void run() {
+                session.removeAttribute("activateKey");
+                timer.cancel();
+            }
+        }, 1000 * 60 * 10);// 设定指定的时间time,此处为10分钟
+        session.setAttribute("timer", timer);
     }
 
 

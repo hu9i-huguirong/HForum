@@ -25,18 +25,18 @@ public class User {
 
 	private String activateKey;
 
+	// 一个用户有多个角色
+	Set<Role> setRole = new HashSet<>();
+
+	private Integer loginType;
+
 	public String getActivateKey() {
 		return activateKey;
 	}
 
 	public void setActivateKey(String activateKey) {
-		this.activateKey = activateKey;
+		this.activateKey = activateKey == null ? null : activateKey.trim();
 	}
-
-	// 一个用户有多个角色
-	Set<Role> setRole = new HashSet<>();
-
-	private Integer loginType;
 
 	public Integer getLoginType() {
 		return loginType;

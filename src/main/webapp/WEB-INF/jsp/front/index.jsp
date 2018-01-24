@@ -2,13 +2,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title></title>
+<title>HForum - 用心与您沟通</title>
 <%@include file="/WEB-INF/jsp/common/common.jsp" %>
 <link rel="stylesheet" href="res/css/layout.css">
 <link rel="stylesheet" href="res/css/home.css">
 <link type="text/css" rel="stylesheet" href="res/css/slides-playing/base.css">
 <link type="text/css" rel="stylesheet" href="res/css/slides-playing/index.css">
  <link rel="stylesheet" href="res/admin/plugins/layui-v2.2.45/css/layui.css" media="all">
+    <script type="text/javascript" src="res/js/jquery.SuperSlide.2.1.1.js"></script>
 </head>
 <body style="min-width: 1220px; overflow-x: hidden;">
 <div class="y-wrap">
@@ -80,18 +81,18 @@
             <div id="module-place">
             </div>
             <div class="module-inner" id="module-inner">
-                <div riot-tag="wsearch" style="margin-bottom: 16px;">
-                    <div name="searchBox" class="wsearch">
-                        <form name="searchForm" action="" method="get" target="_blank">
+                <div  style="margin-bottom: 16px;">
+                    <div class="wsearch">
+                        <form id="searchForm"  action="/search" method="get" target="_blank">
                             <div name="inputbox" class="y-box input-group">
-                                <input class="y-left input-text" name="keyword" autocomplete="off" ga_event="mh_search" type="text" placeholder="请输入关键字">
+                                <input class="y-left input-text"  name="keyword" autocomplete="off"  type="text" placeholder="请输入关键字">
                                 <div class="y-right btn-submit">
-                                    <button type="submit" href="javascript:;"><i class="y-icon icon-search" ga_event="mh_search"></i></button>
+                                    <button type="submit" href="javascript:;"><i class="y-icon icon-search"></i></button>
                                 </div>
                             </div>
                         </form>
-                        <div class="layer" id="hot_search">
-                            <ul ga_event="mh_search">
+                        <div class="layer hotSearch" id="hot_search" style="width: 310px;">
+                            <ul style="margin-top: 16px">
                                 <li class="search-item"><a href="javascript:;"><i class="search-no search-no-1">1</i><span class="search-txt">死亡游戏潜入中国</span></a></li>
                                 <li class="search-item"><a href="javascript:;"><i class="search-no search-no-2">2</i><span class="search-txt">孙燕姿晒结婚照</span></a></li>
                                 <li class="search-item"><a href="javascript:;"><i class="search-no search-no-3">3</i><span class="search-txt">于月仙三姐妹合影</span></a></li>
@@ -383,8 +384,9 @@
 <div id="allmap"></div>
 <script src="res/admin/plugins/layui-v2.2.45/layui.js" charset="utf-8"></script>
 <script type="text/javascript">
-    layui.use(['form'], function() {
+    layui.use(['form','util'], function() {
         window.form = layui.form;
+        window.util = layui.util;
     });
 </script>
 <script src="res/js/dialog/jquery.hDialog.min.js"></script>

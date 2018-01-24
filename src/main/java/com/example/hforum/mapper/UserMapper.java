@@ -22,4 +22,8 @@ public interface UserMapper {
     User loadSelective(User record);
 
     List<User> list(User user);
+
+    User selectByEmail(User record);
+
+    User selectByActivateKey(User record);
 }

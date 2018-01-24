@@ -26,8 +26,12 @@ $(function () {
     });
 
     //表单模块
-    layui.use(['form'], function () {
-        var form = layui.form;
+    layui.use(['form', 'layer'], function () {
+        var w = $(document).width() / 2.5 + "px";
+        var h = $(document).height() / 4 + "px";
+        var c = $("#loading").html();
+        var form = layui.form, layer = layui.layer;
+        ;
         //自定义验证规则
         form.verify({
             //校验密码
@@ -57,13 +61,115 @@ $(function () {
         });
         //监听提交
         form.on('submit(next)', function (data) {
-            $("#user-email-span").html(data.field.email);
-            //切换步骤
-            $('.processorBox li').removeClass('current').eq(1).addClass('current');
-            $('.step').slideUp(300).eq(1).slideDown(500);
+            var id = layer.msg(c, {
+                shade: 0.4,
+                offset: [h, w],//同时定义top、left坐标
+                area: ['400px', '150px'],
+                scrollbar: false,
+                time: false //取消自动关闭
+            });
+
+            var e = data.field.email;
+            $("#user-email-span").html(e);
+            //发送邮件
+            $.post("user/register", $('#form-register').serialize(), function (result) {
+                layer.close(id);//手动关闭
+
+                if (result == 107) {
+                    layer.alert("该帐号已经被注册过了", {
+                        offset: [h, w],
+                        title: '消息',
+                        icon: 2
+                    });
+                }
+                else if (result == 101) {
+                    layer.alert("该帐号已经冻结", {
+                        offset: [h, w],
+                        title: '消息',
+                        icon: 2
+                    });
+                }
+                else if (result == 102) {
+                    var r = layer.alert("注册成功", {
+                        skin: 'layui-layer-molv',
+                        offset: [h, w],
+                        title: '消息',
+                        icon: 1,
+                        yes: function () {
+                            //切换步骤
+                            $('.processorBox li').removeClass('current').eq(1).addClass('current');
+                            $('.step').slideUp(300).eq(1).slideDown(500);
+                            layer.close(r);
+                        }
+                    });
+
+                }
+                else {
+                    layer.alert("注册失败", {
+                        title: '消息',
+                        icon: 2
+                    });
+                }
+
+            });
             return false;
         });
 
+        //重新发送
+        $("#restartSend").click(function () {
+            var lo = layer.msg(c, {
+                shade: 0.4,
+                offset: [h, w],//同时定义top、left坐标
+                area: ['400px', '150px'],
+                scrollbar: false,
+                time: false //取消自动关闭
+            });
+            var e = $("#user-email-span").html();
+            $.post("user/resend", {"email": e}, function (result) {
+                layer.close(lo);//手动关闭
+                if (result == 106) {
+                    layer.alert("发送成功", {
+                        skin: 'layui-layer-molv',
+                        offset: [h, w],
+                        title: '消息',
+                        icon: 1
+                    });
+                }
+                else if (result == 100) {
+                    layer.alert("用户不存在", {
+                        offset: [h, w],
+                        title: '消息',
+                        yes: function () {
+                            window.location.reload();
+                        },
+                        icon: 2
+                    });
+                }
+                else if (result == 105) {
+                    var l = layer.msg('该帐号已经激活,是否前往首页登录?', {
+                            time: 20000, //20s后自动关闭
+                            offset: [h, w],
+                            scrollbar: false,
+                            time: false,//取消自动关闭
+                            btn: ['好的', '不用了']
+                            , yes: function (index, layero) {
+                                //按钮【按钮一】的回调
+                                window.location.href = "/";
+                            }
+                            , btn2: function (index, layero) {
+                                //按钮【按钮二】的回调
+                                layer.close(l);
+                            }
+                        }
+                    )
+                }
+            });
+        });
+        //重新填写
+        $("#restartReg").click(function () {
+            $('.processorBox li').removeClass('current').eq(0).addClass('current');
+            $('.step').slideUp(300).eq(0).slideDown(500);
+        });
     });
 
     //邮箱输入提示
@@ -156,11 +262,7 @@ $(function () {
 
     });
 
-    //重新填写
-    $("#restartReg").click(function () {
-        $('.processorBox li').removeClass('current').eq(0).addClass('current');
-        $('.step').slideUp(300).eq(0).slideDown(500);
-    });
+
     //登录邮箱
     $("#login-email").click(function () {
         var val = $('#user-email').val();
@@ -169,4 +271,6 @@ $(function () {
         var address = "http://mail." + suffix;
         window.location.href = address;
     });
+
+
 });

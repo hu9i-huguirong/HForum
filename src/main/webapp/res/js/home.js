@@ -23,13 +23,29 @@ $(function () {
         autoPlay: true,
         delayTime: 200
     });
+    //热搜
+    $(".search-item").click(function () {
+        $("input[name='keyword']").val($(this).find("span").html());
+        $("#searchForm").submit();
+    });
+
     // 搜索框
     $("input[name='keyword']").focus(function () {
-        $("#hot_search").show();
+        $("#hot_search").slideDown(300);
     });
-    $("input[name='keyword']").blur(function () {
-        $("#hot_search").hide();
+    //解决因为文本框失去焦点而使search-item的点击事件失效
+    $(document).on("click", function (event) {
+        var name = event.target.name;
+        var className = event.target.className;
+        if ("search-item" != className) {
+            if("keyword" != name){
+                $("#hot_search").slideUp(100);
+            }
+        }
     });
+    // $("input[name='keyword']").blur(function () {
+    //     $("#hot_search").slideUp(100);
+    // });
 
     // 刷新
     $('.refreshfeed').click(function () {
@@ -48,7 +64,7 @@ $(function () {
     $('.go-top').click(function () {
         $("body,html").animate({
             scrollTop: 0
-        }, 800);
+        }, 500);
     });
 
     //栏目数据
@@ -163,7 +179,7 @@ $(function () {
 
     //新闻
     function createNewsEles(channelId) {
-        var data = {paginate: false,front:true};
+        var data = {paginate: false, front: true};
         if (channelId != 1 && channelId != 2) {
             data.channelId = channelId;
         }
@@ -195,14 +211,14 @@ $(function () {
                         news += "<div class=\"normal\">";
                     }
                     news += "<div class=\"rbox-inner\">";
-                    news += "<div class=\"title-box\"><a class=\"link title\" target=\"_blank\" href=\"news/detail/"+newsId+"\">" + this.news.newsTitle + "</a></div>";
+                    news += "<div class=\"title-box\"><a class=\"link title\" target=\"_blank\" href=\"news/detail/" + newsId + "\">" + this.news.newsTitle + "</a></div>";
                     if (len > 1) {
                         news += "<div class=\"img-list y-box\">";
                         $.each(this.images, function () {
-                            news += "<a class=\"img-wrap\" target=\"_blank\" href=\"news/detail/"+newsId+"\"><img alt=\"\" src=\"" + this.imageContent + "\"></a>";
+                            news += "<a class=\"img-wrap\" target=\"_blank\" href=\"news/detail/" + newsId + "\"><img alt=\"\" src=\"" + this.imageContent + "\"></a>";
                         });
                         if (len == 3) {
-                            news += "<a class=\"img-wrap\" target=\"_blank\" href=\"news/detail/"+newsId+"\"><span class=\"add-info\">查看详情&nbsp;<i class=\"y-icon icon-next-page\"></i></span></a>";
+                            news += "<a class=\"img-wrap\" target=\"_blank\" href=\"news/detail/" + newsId + "\"><span class=\"add-info\">查看详情&nbsp;<i class=\"y-icon icon-next-page\"></i></span></a>";
                         }
                         if (len >= 4) {
                             news += "<span class=\"img-num\">" + len + "图</span>";
@@ -215,7 +231,7 @@ $(function () {
                     });
                     news += "<div class=\"y-left\"><a class=\"lbtn media-avatar\" target=\"_blank\" href=\"javascript:;\"><img alt=\"\" src=\"res/images/user_default.png\"></a> ";
                     news += "<a class=\"lbtn source\" target=\"_blank\" href=\"javascript:;\">&nbsp;" + this.news.newsFrom + "&nbsp;⋅</a><a class=\"lbtn comment\" target=\"_blank\" href=\"javascript:;\">&nbsp;0评论&nbsp;⋅</a>";
-                    news += "</div><span class=\"lbtn\">&nbsp;刚刚</span></div><div class=\"y-right\"><span class=\"dislike\"> 不感兴趣 <i class=\"y-icon icon-dislikenewfeed\"></i></span></div></div></div></div>";
+                    news += "</div><span name='" + this.news.releaseTime + "' class=\"lbtn timeAgo\"></span></div><div class=\"y-right\"><span class=\"dislike\"> 不感兴趣 <i class=\"y-icon icon-dislikenewfeed\"></i></span></div></div></div></div>";
 
                     if (len == 1) {
                         news += " <div class=\"lbox\"><a class=\"img-wrap\" target=\"_blank\" href=\"article.html\">";
@@ -231,9 +247,17 @@ $(function () {
                 }
                 news += "</ul>";
                 $(".wcommonFeed").html(news);
+
+                setTimeAgo();
             }
         });
 
+    }
+
+    function setTimeAgo() {
+        $.each($(".timeAgo"), function () {
+            $(this).html(util.timeAgo(new Date($(this).attr("name"))));
+        });
     }
 });
 

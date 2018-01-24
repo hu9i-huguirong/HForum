@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User login(User user) {
+    public User loadSelective(User user) {
         return userMapper.loadSelective(user);
     }
 
@@ -36,5 +36,21 @@ public class UserServiceImpl implements UserService {
         List<User> list = userMapper.list(user);
         return list;
     }
+
+    @Override
+    public User selectByEmail(User record) {
+        return userMapper.selectByEmail(record);
+    }
+
+    @Override
+    public int updateByPrimaryKeySelective(User record) {
+        return userMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Override
+    public User selectByActivateKey(User record) {
+        return userMapper.selectByActivateKey(record);
+    }
+
 
 }

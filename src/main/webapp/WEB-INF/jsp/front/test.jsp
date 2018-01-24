@@ -14,9 +14,9 @@
     <link rel="stylesheet" type="text/css" href="res/css/timedropper.css">
     <script src="res/js/timedropper.js"></script>
 </head>
-<body>
-<div style="margin-top: 200px;margin-left: 200px">
-    <i style="color: #EBEBEB;font-size: 28px;font-family: Helvetica Neue, Helvetica, PingFang SC, 微软雅黑, Tahoma, Arial, sans-serif">HForum</i>
+<body style="background-color: #F1F2F3">
+<div style="margin-top: 200px;margin-left: 200px;">
+    <i style="color: #2577E3;font-size: 70px;font-family: Helvetica Neue, Helvetica, PingFang SC, 微软雅黑, Tahoma, Arial, sans-serif; ">HForum</i>
 </div>
 
 

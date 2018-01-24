@@ -15,6 +15,9 @@ import java.util.Map;
 @RequestMapping("/util")
 @Controller
 public class UtilController {
+
+
+
     @RequestMapping("/getTimeDiff")
     public void getTimeDiff(Long clientNowMs, HttpServletResponse response) throws IOException {
         //获取客户端与服务器的时间戳
@@ -32,4 +35,5 @@ public class UtilController {
         //return WeatherUtil.getWeatherBySoJsonAPI(cityName);
          return WeatherUtil.getWeatherByNowAPI(cityName);
     }
+
 }

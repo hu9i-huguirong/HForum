@@ -30,7 +30,7 @@ public class WeatherUtil {
         String city = java.net.URLEncoder.encode(cityName, "utf-8");
 
         //拼地址
-        String apiUrl = String.format("http://www.sojson.com/open/api/weather/json.shtml?city=%s", city);
+        String apiUrl = String.format("https://www.sojson.com/open/api/weather/json.shtml?city=%s", city);
         //开始请求
         URL url = new URL((apiUrl));
         URLConnection open = url.openConnection();

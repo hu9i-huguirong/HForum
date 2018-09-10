@@ -32,8 +32,7 @@ public class UtilController {
     @ResponseBody
     public List<Map<String, Object>> weather(String cityName) throws IOException {
         //return WeatherUtil.getWeatherByWebServiceAPI(cityName);
-        //return WeatherUtil.getWeatherBySoJsonAPI(cityName);
-         return WeatherUtil.getWeatherByNowAPI(cityName);
+        return WeatherUtil.getWeatherBySoJsonAPI(cityName);
+        // return WeatherUtil.getWeatherByNowAPI(cityName);
     }
-
 }
